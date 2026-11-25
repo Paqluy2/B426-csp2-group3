@@ -18,7 +18,6 @@ public class TestConnection {
 
             System.out.println("Database Connected Successfully!");
 
-        } catch (Exception e) {e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
     }
 }
