@@ -13,7 +13,7 @@ import java.util.List;
 public class EmployeeRepositoryImpl implements EmployeeRepository {
     private final DbConnection dbConnection;
 
-    // Employee columns plus the department and position names (shared by every SELECT below).
+
     private static final String SELECT_EMPLOYEES =
             "SELECT e.employee_id, e.first_name, e.middle_name, e.last_name, e.birthday, " +
                     "e.contact_number, e.email, e.hire_date, e.department_id, d.department_name, " +
@@ -156,7 +156,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public boolean deleteArchivedEmployee(Employee employee) {
-        // Only archived employees can be deleted for good.
         String query = "DELETE FROM employees WHERE employee_id = ? AND is_archived = 1";
 
         try (Connection conn = dbConnection.connect();
