@@ -17,7 +17,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     private static final String SELECT_EMPLOYEES =
             "SELECT e.employee_id, e.first_name, e.middle_name, e.last_name, e.birthday, " +
                     "e.contact_number, e.email, e.hire_date, e.department_id, d.department_name, " +
-                    "e.position_id, p.position_name, e.address, e.employment_status, e.leave_credits " +
+                    "e.position_id, p.position_name, e.address, e.employment_status, e.leave_credits, e.is_archived " +
                     "FROM employees e " +
                     "JOIN departments d ON e.department_id = d.department_id " +
                     "JOIN positions p ON e.position_id = p.position_id ";
@@ -94,10 +94,10 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             prep.setString(1, employee.getFirstName());
             prep.setString(2, employee.getMiddleName());
             prep.setString(3, employee.getLastName());
-            prep.setString(4, employee.getBirthday());
+            prep.setDate(4, java.sql.Date.valueOf(employee.getBirthday()));
             prep.setString(5, employee.getContactNumber());
             prep.setString(6, employee.getEmail());
-            prep.setString(7, employee.getHireDate());
+            prep.setDate(7, java.sql.Date.valueOf(employee.getHireDate()));
             prep.setInt(8, employee.getDepartmentId());
             prep.setInt(9, employee.getPositionId());
             prep.setString(10, employee.getAddress());
@@ -122,10 +122,10 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             prep.setString(1, employee.getFirstName());
             prep.setString(2, employee.getMiddleName());
             prep.setString(3, employee.getLastName());
-            prep.setString(4, employee.getBirthday());
+            prep.setDate(4, java.sql.Date.valueOf(employee.getBirthday()));
             prep.setString(5, employee.getContactNumber());
             prep.setString(6, employee.getEmail());
-            prep.setString(7, employee.getHireDate());
+            prep.setDate(7, java.sql.Date.valueOf(employee.getHireDate()));
             prep.setInt(8, employee.getDepartmentId());
             prep.setInt(9, employee.getPositionId());
             prep.setString(10, employee.getAddress());
@@ -198,22 +198,24 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     private Employee mapEmployee(ResultSet rs) throws SQLException {
-        return new Employee(
+        Employee employee = new Employee(
                 rs.getInt("employee_id"),
                 rs.getString("first_name"),
                 rs.getString("middle_name"),
                 rs.getString("last_name"),
-                rs.getString("birthday"),
+                rs.getDate("birthday").toLocalDate(),
                 rs.getString("contact_number"),
                 rs.getString("email"),
-                rs.getString("hire_date"),
+                rs.getDate("hire_date").toLocalDate(),
                 rs.getInt("department_id"),
-                rs.getString("department_name"),
                 rs.getInt("position_id"),
-                rs.getString("position_name"),
                 rs.getString("address"),
                 rs.getString("employment_status"),
-                rs.getInt("leave_credits")
+                rs.getInt("leave_credits"),
+                rs.getBoolean("is_archived")
         );
+        employee.setDepartmentName(rs.getString("department_name"));
+        employee.setPositionName(rs.getString("position_name"));
+        return employee;
     }
 }

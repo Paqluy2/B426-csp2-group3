@@ -15,6 +15,8 @@ public class Employee {
     private LocalDate hireDate;
     private int departmentId;
     private int positionId;
+    private String departmentName;
+    private String positionName;
     private String address;
     private String employmentStatus;
     private int leaveCredits;
@@ -22,7 +24,7 @@ public class Employee {
 
     // 2. Constructor
     public Employee(int employeeId, String firstName, String middleName, String lastName, LocalDate birthday, String contactNumber, String email, LocalDate hireDate, int departmentId, int positionId, String address, String employmentStatus, int leaveCredits, boolean archived) {
-        this.employeeId = 0;
+        this.employeeId = employeeId;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -34,13 +36,10 @@ public class Employee {
         this.positionId = positionId;
         this.address = address;
         this.employmentStatus = employmentStatus;
-        this.leaveCredits = 0;
-        this.archived = false;
+        this.leaveCredits = leaveCredits;
+        this.archived = archived;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
 
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
@@ -148,5 +147,34 @@ public class Employee {
 
     public void setArchived(boolean archived) {
         this.archived = archived;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+
+    public int getId() {
+        return employeeId;
+    }
+
+    public void setId(int id) {
+        this.employeeId = id;
+    }
+
+    public String getFullName() {
+        String middle = (middleName == null || middleName.isBlank()) ? "" : middleName + " ";
+        return firstName + " " + middle + lastName;
     }
 }
